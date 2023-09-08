@@ -13,6 +13,18 @@ class Graph:
     def create_edge(self, edge):
         self.edges.append(edge)
 
+    def find_edge(self, edge_list, start, end):
+        for edge in edge_list:
+            if edge.start is start and edge.end is end:
+                return edge
+        return None
+
+    def delete_edge(self, edge_list, target):
+        if target in edge_list:
+            edge_list.remove(edge_list)
+        else:
+            print("that edge doesn't exist.")
+
     def find_root(self, parent, node):
         if parent[node] == node:
             return node
@@ -45,16 +57,22 @@ class Graph:
 
         return mst_edges
 
-    def print_graph(self):
+    def print_graph(self, graph):
         printed_edges = set()
-        for i in self.nodes:
+        for i in graph.nodes:
             print(f'{i.department_name}:', end='     ')
-            for edge in self.edges:
+            for edge in graph.edges:
                 if edge.start == i:
                     if (edge.start, edge.end) not in printed_edges:
-                        print(f'{edge.start.department_name} -> {edge.end.department_name} cost: ({edge.distance})', end='    ')
+                        print(f'{edge.start.department_name} -> {edge.end.department_name} cost: ({edge.distance})',
+                              end='    ')
                         printed_edges.add((edge.start, edge.end))
                 elif edge.end == i and (edge.end, edge.start) not in printed_edges:
-                    print(f'{edge.end.department_name} -> {edge.start.department_name} cost: ({edge.distance})', end='    ')
+                    print(f'{edge.end.department_name} -> {edge.start.department_name} cost: ({edge.distance})',
+                          end='    ')
                     printed_edges.add((edge.end, edge.start))
             print('')
+
+    def print_mst(self, mst):
+        for edge in mst:
+            print(f"{edge.start.department_name} -> {edge.end.department_name} cost: {edge.distance}")

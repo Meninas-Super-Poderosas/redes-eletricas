@@ -95,6 +95,32 @@ main_graph.create_edge(edge9)
 main_graph.create_edge(edge10)
 
 minimum_spanning_tree = main_graph.kruskal()
-for edge in minimum_spanning_tree:
-    print(f"{edge.start.department_name} -> {edge.end.department_name} cost: {edge.distance}")
 
+main_graph.print_graph(main_graph)
+
+print()
+
+main_graph.print_mst(minimum_spanning_tree)
+
+nodes = []
+km = 0
+people = 0
+cost_per_kilometer = 1000
+
+for edge in minimum_spanning_tree:
+
+    km += edge.distance
+
+    if edge.start not in nodes:
+        nodes.append(edge.start)
+
+    if edge.end not in nodes:
+        nodes.append(edge.end)
+
+
+
+for node in nodes:
+    people += node.person_qtd
+
+
+print(f"this project used up {km*cost_per_kilometer} dollars and helped out {people} people")
