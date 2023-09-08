@@ -74,5 +74,25 @@ class Graph:
             print('')
 
     def print_mst(self, mst):
+        nodes_aux = []
+        km = 0
+        people = 0
+        cost_per_kilometer = 1000
+
         for edge in mst:
+
             print(f"{edge.start.department_name} -> {edge.end.department_name} cost: {edge.distance}")
+
+            km += edge.distance
+
+            if edge.start not in nodes_aux:
+                nodes_aux.append(edge.start)
+
+            if edge.end not in nodes_aux:
+                nodes_aux.append(edge.end)
+        for node in nodes_aux:
+            people += node.person_qtd
+
+        print('')
+
+        print(f"this project used up {km * cost_per_kilometer} dollars and helped out {people} people")
