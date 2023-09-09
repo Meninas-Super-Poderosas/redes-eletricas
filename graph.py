@@ -36,7 +36,6 @@ class Graph:
         if found_target is not None and found_reverse_edge is not None:
             edge_list.remove(found_target)
             edge_list.remove(found_reverse_edge)
-            print('Edges removed successfully!')
         else:
             print("The edge doesn't exist.")
 

@@ -1,6 +1,45 @@
 from edges import Edge
 from graph import Graph
 from nodes import Node
+import networkx as nx
+import matplotlib.pyplot as plt
+
+
+def visualize_graph(graph):
+    G = nx.Graph()
+
+    # Add nodes to the networkx graph
+    for node in graph.nodes:
+        G.add_node(node.department_name)
+
+    # Add edges to the networkx graph
+    for edge in graph.edges:
+        G.add_edge(edge.start.department_name, edge.end.department_name, weight=edge.distance)
+
+    pos = nx.spring_layout(G)
+
+    # Draw nodes and edges
+    nx.draw(G, pos, with_labels=True, node_size=1000, font_size=8, font_color='white')
+    labels = nx.get_edge_attributes(G, 'weight')
+    nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
+
+    plt.show()
+
+
+def visualize_mst(mst):
+    G = nx.Graph()
+
+    for edge in mst:
+        G.add_edge(edge.start.department_name, edge.end.department_name, weight=edge.distance)
+
+    pos = nx.spring_layout(G)
+
+    nx.draw(G, pos, with_labels=True, node_size=1000, font_size=8, font_color='white')
+    labels = nx.get_edge_attributes(G, 'weight')
+    nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
+
+    plt.title("Minimum Spanning Tree")
+    plt.show()
 
 
 def main():
@@ -124,6 +163,10 @@ def main():
             second_answer = input("Do you want to remove any edge that you have been created? (y/no) ")
 
         minimum_spanning_tree = main_graph.kruskal()
+
+        visualize_graph(main_graph)
+
+        visualize_mst(minimum_spanning_tree)
 
         print("Here is your Minimal Spanning Tree:")
 
