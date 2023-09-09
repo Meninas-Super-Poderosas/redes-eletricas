@@ -12,18 +12,33 @@ class Graph:
 
     def create_edge(self, edge):
         self.edges.append(edge)
+        aux_edge = Edge(edge.end, edge.start, edge.distance)
+        self.edges.append(aux_edge)
 
-    def find_edge(self, edge_list, start, end):
-        for edge in edge_list:
-            if edge.start is start and edge.end is end:
+    def find_edge(self, start, end):
+        for edge in self.edges:
+            if edge.start.department_name.lower() == start.lower() and edge.end.department_name.lower() == end.lower():
                 return edge
         return None
 
     def delete_edge(self, edge_list, target):
-        if target in edge_list:
-            edge_list.remove(edge_list)
+        reverse_edge = Edge(target.end, target.start, target.distance)
+
+        found_target = None
+        found_reverse_edge = None
+
+        for edge in edge_list:
+            if edge.start == target.start and edge.end == target.end and edge.distance == target.distance:
+                found_target = edge
+            if edge.start == reverse_edge.start and edge.end == reverse_edge.end and edge.distance == reverse_edge.distance:
+                found_reverse_edge = edge
+
+        if found_target is not None and found_reverse_edge is not None:
+            edge_list.remove(found_target)
+            edge_list.remove(found_reverse_edge)
+            print('Edges removed successfully!')
         else:
-            print("that edge doesn't exist.")
+            print("The edge doesn't exist.")
 
     def find_root(self, parent, node):
         if parent[node] == node:
@@ -91,7 +106,7 @@ class Graph:
             if edge.end not in nodes_aux:
                 nodes_aux.append(edge.end)
         for node in nodes_aux:
-            people += node.person_qtd
+            people += int(node.person_qtd)
 
         print('')
 
