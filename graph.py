@@ -1,4 +1,3 @@
-from nodes import Node
 from edges import Edge
 
 
@@ -30,7 +29,9 @@ class Graph:
         for edge in edge_list:
             if edge.start == target.start and edge.end == target.end and edge.distance == target.distance:
                 found_target = edge
-            if edge.start == reverse_edge.start and edge.end == reverse_edge.end and edge.distance == reverse_edge.distance:
+            if (edge.start == reverse_edge.start and
+                    edge.end == reverse_edge.end and
+                    edge.distance == reverse_edge.distance):
                 found_reverse_edge = edge
 
         if found_target is not None and found_reverse_edge is not None:
@@ -91,7 +92,7 @@ class Graph:
         nodes_aux = []
         km = 0
         people = 0
-        cost_per_kilometer = 1000
+        cost_per_kilometer = 1782
 
         for edge in mst:
 

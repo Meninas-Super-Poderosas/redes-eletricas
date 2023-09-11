@@ -6,37 +6,37 @@ import matplotlib.pyplot as plt
 
 
 def visualize_graph(graph):
-    G = nx.Graph()
+    grap = nx.Graph()
 
     # Add nodes to the networkx graph
     for node in graph.nodes:
-        G.add_node(node.department_name)
+        grap.add_node(node.department_name)
 
     # Add edges to the networkx graph
     for edge in graph.edges:
-        G.add_edge(edge.start.department_name, edge.end.department_name, weight=edge.distance)
+        grap.add_edge(edge.start.department_name, edge.end.department_name, weight=edge.distance)
 
-    pos = nx.spring_layout(G)
+    pos = nx.spring_layout(grap)
 
     # Draw nodes and edges
-    nx.draw(G, pos, with_labels=True, node_size=1000, font_size=8, font_color='white')
-    labels = nx.get_edge_attributes(G, 'weight')
-    nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
+    nx.draw(grap, pos, with_labels=True, node_size=1000, font_size=8, font_color='white')
+    labels = nx.get_edge_attributes(grap, 'weight')
+    nx.draw_networkx_edge_labels(grap, pos, edge_labels=labels)
 
     plt.show()
 
 
 def visualize_mst(mst):
-    G = nx.Graph()
+    grap = nx.Graph()
 
     for edge in mst:
-        G.add_edge(edge.start.department_name, edge.end.department_name, weight=edge.distance)
+        grap.add_edge(edge.start.department_name, edge.end.department_name, weight=edge.distance)
 
-    pos = nx.spring_layout(G)
+    pos = nx.spring_layout(grap)
 
-    nx.draw(G, pos, with_labels=True, node_size=1000, font_size=8, font_color='white')
-    labels = nx.get_edge_attributes(G, 'weight')
-    nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
+    nx.draw(grap, pos, with_labels=True, node_size=1000, font_size=8, font_color='white')
+    labels = nx.get_edge_attributes(grap, 'weight')
+    nx.draw_networkx_edge_labels(grap, pos, edge_labels=labels)
 
     plt.title("Minimum Spanning Tree")
     plt.show()
@@ -45,7 +45,7 @@ def visualize_mst(mst):
 def main():
     main_graph = Graph()
     try:
-        first_answer = input("Do you want to create the graph yourself? (y to YES or any key to NO) ")
+        first_answer = input("Do you want to create the graph yourself? ('y' to YES or any key to NO) ")
         if first_answer.lower() != 'y':
             print('All right, we will create a graph for you...')
 
@@ -86,7 +86,7 @@ def main():
             main_graph.create_edge(edge10)
 
         elif first_answer.lower() == "y":
-            amount_nodes = int(input("How many nodes do you want in the graph? "))
+            amount_nodes = int(input("How many departments do you want in the graph? "))
 
             print('')
             print("All right, now specify the Departments (Nodes): ")
@@ -98,8 +98,9 @@ def main():
                 new_node = Node(name, amount_people)
                 main_graph.create_node(new_node)
 
-            print(f'All right, now, specify the edges: ')
-            print(f"Be careful, don't create identical edges!")
+            print(f'All right, now, specify the connections (wires): ')
+            print("The price for each km of wire is $1782")
+            print(f"Be careful, don't create identical wires!")
             print('')
 
             while True:
@@ -123,7 +124,7 @@ def main():
                 else:
                     print("Invalid department names. Please try again.")
 
-                conf = input('Do you want to create any connections? (y/n) ')
+                conf = input('Do you want to create any electric wire? (y/n) ')
                 if conf != "y":
                     break
 
@@ -137,13 +138,13 @@ def main():
 
         print('')
 
-        second_answer = input("Do you want to remove any edge that has been created? (y/no) ")
+        second_answer = input("Do you want to remove any wire that has been created? (y/no) ")
         while second_answer != 'no':
             if second_answer == 'y':
                 print('')
                 print(
-                    "All right! You chose to remove an edge."
-                    " Now, specify the nodes of the edge that you want to remove: ")
+                    "All right! You chose to remove an wire."
+                    " Now, specify the departments of the wire that you want to remove: ")
                 start_dept_name = input("Start Department: ")
                 end_dept_name = input("End Department: ")
                 target = main_graph.find_edge(start_dept_name, end_dept_name)
@@ -152,7 +153,7 @@ def main():
                     print("Success!")
                     print('')
                 else:
-                    print("Sorry, this edge doesn't exist in your graph")
+                    print("Sorry, this wire doesn't exist in your graph")
                     print('')
             elif second_answer != 'y':
                 print("Oh, seems like you typed the wrong key, let's try again")
@@ -160,7 +161,7 @@ def main():
             print("Here is your modified graph:")
             main_graph.print_graph(main_graph)
             print('')
-            second_answer = input("Do you want to remove any edge that you have been created? (y/no) ")
+            second_answer = input("Do you want to remove any wire that you have been created? (y/no) ")
 
         minimum_spanning_tree = main_graph.kruskal()
 
